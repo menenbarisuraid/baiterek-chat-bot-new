@@ -167,7 +167,7 @@ export default function App() {
   return (
     <Router>
       <Authenticator>
-        {({ signOut, user }) => (
+        {({ signOut }) => (
           <Routes>
             {/* Сразу редирект с корня на /chatbot */}
             <Route path="/" element={<RedirectToChatBot />} />
