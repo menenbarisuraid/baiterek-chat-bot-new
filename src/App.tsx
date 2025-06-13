@@ -1,59 +1,138 @@
-// import { useEffect, useState } from "react";
-// import type { Schema } from "../amplify/data/resource";
-// import { generateClient } from "aws-amplify/data";
 
-// const client = generateClient<Schema>();
 
-// function App() {
-//   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
+// import { Authenticator } from '@aws-amplify/ui-react';
+// import { Amplify } from 'aws-amplify';
+// import '@aws-amplify/ui-react/styles.css';
+// // import outputs from "../amplify_outputs.json";
 
-//   useEffect(() => {
-//     client.models.Todo.observeQuery().subscribe({
-//       next: (data) => setTodos([...data.items]),
-//     });
-//   }, []);
+// // Amplify.configure(outputs);
+// Amplify.configure({
+//   Auth: {
+//     Cognito: {
+//       userPoolId: "eu-central-1_xaCLPHhTs",
+//       userPoolClientId: "5plk66v79glgvfptci5mer5ne5",
+//       loginWith: {
+//         email: true,
+//       },
+//       signUpVerificationMethod: "code",
+//       userAttributes: {
+//         email: {
+//           required: true,
+//         },
+//       },
+//       passwordFormat: {
+//         minLength: 8,
+//         requireLowercase: true,
+//         requireUppercase: true,
+//         requireNumbers: true,
+//         requireSpecialCharacters: true,
+//       },
+//     },
+//   },
+// });
 
-//   function createTodo() {
-//     client.models.Todo.create({ content: window.prompt("Todo content") });
-//   }
-
+// export default function App() {
 //   return (
-//     <main>
-//       <h1>My todos</h1>
-//       <button onClick={createTodo}>+ new</button>
-//       <ul>
-//         {todos.map((todo) => (
-//           <li key={todo.id}>{todo.content}</li>
-//         ))}
-//       </ul>
-//       <div>
-//         🥳 App successfully hosted. Try creating a new todo.
-//         <br />
-//         <a href="https://docs.amplify.aws/react/start/quickstart/#make-frontend-updates">
-//           Review next step of this tutorial.
-//         </a>
-//       </div>
-//     </main>
+//     <Authenticator>
+//       {({ signOut, user }) => (
+//         <main>
+//           <h1>Hello {user?.username}</h1>
+//           <button onClick={signOut}>Sign out</button>
+//         </main>
+//       )}
+//     </Authenticator>
 //   );
 // }
 
-// export default App;
+
+// import { Authenticator } from '@aws-amplify/ui-react';
+// import { Amplify } from 'aws-amplify';
+// import '@aws-amplify/ui-react/styles.css';
+// import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+// import { useEffect } from 'react';
+
+// Amplify.configure({
+//   Auth: {
+//     Cognito: {
+//       userPoolId: 'eu-central-1_xaCLPHhTs',
+//       userPoolClientId: '5plk66v79glgvfptci5mer5ne5',
+//       loginWith: {
+//         email: true,
+//       },
+//       signUpVerificationMethod: 'code',
+//       userAttributes: {
+//         email: {
+//           required: true,
+//         },
+//       },
+//       passwordFormat: {
+//         minLength: 8,
+//         requireLowercase: true,
+//         requireUppercase: true,
+//         requireNumbers: true,
+//         requireSpecialCharacters: true,
+//       },
+//     },
+//   },
+// });
+
+
+// function RedirectToChatBot() {
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     navigate('/chatBot');
+//   }, [navigate]);
+
+//   return null;
+// }
+
+// function ChatBot() {
+//   return <h2>🤖 Добро пожаловать в ChatBot!</h2>;
+// }
+
+// function Home({ signOut, user }: any) {
+//   return (
+//     <>
+//       <h1>Hello {user?.username}</h1>
+//       <button onClick={signOut}>Sign out</button>
+//       <RedirectToChatBot />
+//     </>
+//   );
+// }
+
+// export default function App() {
+//   return (
+//     <Router>
+//       <Authenticator>
+//         {({ signOut, user }) => (
+//           <Routes>
+//             <Route path="/" element={<Home signOut={signOut} user={user} />} />
+//             <Route path="/chatBot" element={<ChatBot />} />
+//           </Routes>
+//         )}
+//       </Authenticator>
+//     </Router>
+//   );
+// }
+
+
 
 import { Authenticator } from '@aws-amplify/ui-react';
 import { Amplify } from 'aws-amplify';
 import '@aws-amplify/ui-react/styles.css';
-// import outputs from "../amplify_outputs.json";
+import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
-// Amplify.configure(outputs);
 Amplify.configure({
   Auth: {
     Cognito: {
-      userPoolId: "eu-central-1_xaCLPHhTs",
-      userPoolClientId: "5plk66v79glgvfptci5mer5ne5",
+      userPoolId: 'eu-central-1_xaCLPHhTs',
+      userPoolClientId: '5plk66v79glgvfptci5mer5ne5',
       loginWith: {
         email: true,
       },
-      signUpVerificationMethod: "code",
+      signUpVerificationMethod: 'code',
       userAttributes: {
         email: {
           required: true,
@@ -70,15 +149,42 @@ Amplify.configure({
   },
 });
 
+function RedirectToChatBot() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate('/chatbot');
+  }, [navigate]);
+
+  return null;
+}
+
+function ChatBot() {
+  return <h2>🤖 Добро пожаловать в ChatBot!</h2>;
+}
+
 export default function App() {
   return (
-    <Authenticator>
-      {({ signOut, user }) => (
-        <main>
-          <h1>Hello {user?.username}</h1>
-          <button onClick={signOut}>Sign out</button>
-        </main>
-      )}
-    </Authenticator>
+    <Router>
+      <Authenticator>
+        {({ signOut, user }) => (
+          <Routes>
+            {/* Сразу редирект с корня на /chatbot */}
+            <Route path="/" element={<RedirectToChatBot />} />
+            <Route
+              path="/chatbot"
+              element={
+                <div>
+                  <ChatBot />
+                  <button onClick={signOut}>Sign out</button>
+                </div>
+              }
+            />
+            {/* fallback на случай странного пути */}
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        )}
+      </Authenticator>
+    </Router>
   );
 }
