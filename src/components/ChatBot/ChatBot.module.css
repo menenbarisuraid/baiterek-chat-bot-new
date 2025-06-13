@@ -1,0 +1,287 @@
+/* ChatBot.module.css */
+
+/* ───────── базовые переменные ───────── */
+:root {
+    --primary: #6366f1;           /* индиго-500 */
+    --primary-dark: #4f46e5;      /* индиго-600 */
+    --primary-light: #e0e7ff;     /* очень светлый индиго */
+    --bg: #f3f4f6;                /* светло-серый фон страницы */
+    --surface: #ffffff;           /* цвет «карточки» и фон блоков */
+    --surface-alt: #fafafa;       /* чуть светлее, для второстепенных блоков */
+    --text: #111827;              /* тёмно-серый (почти чёрный) */
+    --text-secondary: #6b7280;    /* серый для второстепенного текста */
+    --radius-lg: 12px;
+    --radius-sm: 8px;
+    --shadow-s: 0 2px 6px rgba(0, 0, 0, 0.05);
+    --shadow-m: 0 6px 20px rgba(0, 0, 0, 0.08);
+    --tr: 0.18s ease;
+    font-family: "Inter", system-ui, sans-serif;
+}
+
+/* ───────── общий каркас страницы ───────── */
+.page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* ───────── header ───────── */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--primary);
+    box-shadow: var(--shadow-s);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 5%;
+}
+
+.logoBlock {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logoBlock img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.logoTitle strong {
+    font-size: 1.4rem;
+    color: #ffffff;
+    line-height: 1;
+}
+
+.logoTitle small {
+    display: block;
+    font-size: 0.7rem;
+    color: #e0e7ff;
+    margin-top: 2px;
+}
+
+.langWrap {
+    display: flex;
+    gap: 10px;
+}
+
+.langBtn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--tr);
+    font-size: 0.9rem;
+}
+
+.langBtn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.langActive {
+    background: #ffffff;
+    color: var(--primary);
+    border-color: #ffffff;
+}
+
+/* ───────── основная область ───────── */
+.body {
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: 800px; /* увеличили ширину */
+    margin: 40px auto;
+    padding: 0 16px;
+}
+
+/* ───────── карточка чата ───────── */
+.card {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-m);
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInUp 0.4s var(--tr) forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cardTitle {
+    margin: 0 0 16px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+/* ─── Информационный блок сверху карточки ─── */
+.infoBlock {
+    background: var(--surface-alt);
+    border-left: 4px solid var(--primary);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    color: var(--text);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Обёртка для ряда «чипов» */
+.rowWrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+/* «Чипы» компаний и сотрудников:
+   4 в одну строку, одинаковая ширина */
+.chip,
+.chipSmall {
+    background: var(--surface-alt);
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--tr);
+
+    /* Для точного расчёта ширины: (100% - 3*12px) / 4 */
+    flex: 0 0 calc((100% - 36px) / 4);
+    text-align: center;
+    padding: 10px 0;
+    font-size: 0.94rem;
+}
+
+.chip:hover,
+.chipSmall:hover {
+    background: var(--primary-light);
+    box-shadow: var(--shadow-s);
+    transform: translateY(-1px);
+}
+
+.active {
+    background: var(--primary);
+    color: #ffffff;
+}
+
+.active:hover {
+    background: var(--primary-dark);
+}
+
+/* ───────── окно сообщений ───────── */
+.chatBox {
+    flex: 1 1 auto;
+    min-height: 280px;
+    max-height: 460px;
+    overflow-y: auto;
+    background: var(--surface-alt);
+    border: 1px solid #e5e5e5;
+    border-radius: var(--radius-lg);
+    padding: 24px 20px;
+    margin-bottom: 24px;
+}
+
+/* Подсказки в чате */
+.hint {
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Сообщения-«пузырьки» */
+.bubble {
+    max-width: 78%;
+    padding: 12px 16px;
+    border-radius: var(--radius-lg);
+    line-height: 1.4;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-s);
+    word-wrap: break-word;
+}
+
+/* Пользователь / бот */
+.user {
+    margin-left: auto;
+    background: var(--primary-light);
+    color: var(--text);
+}
+
+.bot {
+    background: var(--surface);
+    color: var(--text);
+}
+
+/* ───────── input-bar ───────── */
+.inputBar {
+    display: flex;
+    gap: 12px;
+    margin-top: auto;
+}
+
+.inputBar input {
+    flex: 1 1 auto;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    border: 1px solid #d1d5db;
+    font-size: 0.95rem;
+    transition: var(--tr);
+}
+
+.inputBar input:focus {
+    border-color: var(--primary);
+    outline: none;
+    background: #ffffff;
+}
+
+.inputBar input:disabled {
+    background: #f9fafb;
+    color: var(--text-secondary);
+    cursor: not-allowed; /* курсор при disabled */
+}
+
+.inputBar button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: var(--primary);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: var(--tr);
+}
+
+/* Hover-эффект для активной кнопки */
+.inputBar button:hover:not(:disabled) {
+    background: var(--primary-dark);
+}
+
+/* Стили для disabled-кнопки */
+.inputBar button:disabled {
+    background: #c7c7c7;
+    cursor: not-allowed; /* курсор запрещён */
+    opacity: 0.7;         /* чуть более прозрачная */
+}
+
+/* ───────── сноска / дисклеймер ───────── */
+.disclaimer {
+    margin-top: 12px;
+    font-size: 0.85rem;
+    text-align: center;
+    color: var(--text-secondary);
+}
