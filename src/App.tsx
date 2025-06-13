@@ -121,7 +121,7 @@
 import { Authenticator } from '@aws-amplify/ui-react';
 import { Amplify } from 'aws-amplify';
 import '@aws-amplify/ui-react/styles.css';
-import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate, BrowserRouter } from 'react-router-dom';
 import { useEffect } from 'react';
 
 Amplify.configure({
@@ -165,26 +165,44 @@ function ChatBot() {
 
 export default function App() {
   return (
-    <Router>
-      <Authenticator>
-        {({ signOut }) => (
-          <Routes>
-            {/* Сразу редирект с корня на /chatbot */}
-            <Route path="/" element={<RedirectToChatBot />} />
-            <Route
-              path="/chatbot"
-              element={
-                <div>
-                  <ChatBot />
-                  <button onClick={signOut}>Sign out</button>
-                </div>
-              }
-            />
-            {/* fallback на случай странного пути */}
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        )}
-      </Authenticator>
-    </Router>
+    // <Router>
+    //   <Authenticator>
+    //     {({ signOut }) => (
+    //       <Routes>
+    //         {/* Сразу редирект с корня на /chatbot */}
+    //         <Route path="/" element={<RedirectToChatBot />} />
+    //         <Route
+    //           path="/chatbot"
+    //           element={
+    //             <div>
+    //               <ChatBot />
+    //               <button onClick={signOut}>Sign out</button>
+    //             </div>
+    //           }
+    //         />
+    //         {/* fallback на случай странного пути */}
+    //         <Route path="*" element={<Navigate to="/" />} />
+    //       </Routes>
+    //     )}
+    //   </Authenticator>
+    // </Router>
+    <Authenticator>
+    {({ signOut }) => (
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/chatbot"
+            element={
+              <div>
+                <ChatBot />
+                <button onClick={signOut}>Sign out</button>
+              </div>
+            }
+          />
+          <Route path="*" element={<Navigate to="/chatbot" replace />} />
+        </Routes>
+      </BrowserRouter>
+    )}
+  </Authenticator>
   );
 }
