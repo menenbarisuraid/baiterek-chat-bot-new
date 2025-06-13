@@ -40,11 +40,35 @@
 // export default App;
 
 import { Authenticator } from '@aws-amplify/ui-react';
-// import { Amplify } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 import '@aws-amplify/ui-react/styles.css';
 // import outputs from "../amplify_outputs.json";
 
 // Amplify.configure(outputs);
+Amplify.configure({
+  Auth: {
+    Cognito: {
+      userPoolId: "eu-central-1_xaCLPHhTs",
+      userPoolClientId: "5plk66v79glgvfptci5mer5ne5",
+      loginWith: {
+        email: true,
+      },
+      signUpVerificationMethod: "code",
+      userAttributes: {
+        email: {
+          required: true,
+        },
+      },
+      passwordFormat: {
+        minLength: 8,
+        requireLowercase: true,
+        requireUppercase: true,
+        requireNumbers: true,
+        requireSpecialCharacters: true,
+      },
+    },
+  },
+});
 
 export default function App() {
   return (
