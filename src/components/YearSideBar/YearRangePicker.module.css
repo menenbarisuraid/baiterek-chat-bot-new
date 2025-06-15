@@ -1,0 +1,47 @@
+.backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+
+.modal {
+    background: var(--surface, #ffffff);
+    border-radius: 12px;
+    padding: 28px 32px;
+    min-width: 320px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.title {
+    margin: 0 0 12px;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text, #111827);
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 12px 0;
+}
+
+.okBtn {
+    margin-top: 22px;
+    width: 100%;
+    padding: 12px 0;
+    background: var(--primary, #6366f1);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s ease;
+}
+.okBtn:hover {
+    background: var(--primary-dark, #4f46e5);
+}
