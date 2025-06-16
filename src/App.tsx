@@ -67,7 +67,7 @@
 // }
 
 
-import React from 'react';
+// import React from 'react';
 import { Amplify } from 'aws-amplify';
 import '@aws-amplify/ui-react/styles.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';

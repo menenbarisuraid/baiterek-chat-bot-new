@@ -4,7 +4,7 @@ import "../../i18n";
 import styles from "./ChatBot.module.css";
 import logo from "./../assets/images/logo.png";
 import { post } from '@aws-amplify/api';
-import { fetchAuthSession, AuthUser  } from 'aws-amplify/auth';
+import { fetchAuthSession } from 'aws-amplify/auth';
 
 interface Message {
   text: string;
@@ -49,8 +49,8 @@ const ChatBot: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const session = await fetchAuthSession();
-      const token = session.tokens?.accessToken?.toString();
+      // const session = await fetchAuthSession();
+      // const token = session.tokens?.accessToken?.toString();
 
       const restOperation = await post({
 
