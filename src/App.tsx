@@ -10,8 +10,8 @@ Amplify.configure({
     Cognito: {
       // userPoolId: 'eu-central-1_xaCLPHhTs',
       // userPoolClientId: '5plk66v79glgvfptci5mer5ne5',
-      userPoolId: 'eu-central-1_3vi33sPAt',
-      userPoolClientId: '50re4qkcdgcbva45sfm0saiq82',
+      userPoolId: 'eu-central-1_joZmlVOgL',
+      userPoolClientId: '1t3emt23vbu3url3n70ts318sg',
       loginWith: {
         email: true,
       },
@@ -32,8 +32,8 @@ Amplify.configure({
   },
   API: {
     REST: {
-      apidad77fab: {
-        endpoint: 'https://292vy5pmh7.execute-api.eu-central-1.amazonaws.com/default/baiterekchatbotb8c1fe9f-dev',
+      'baiterek-ve-prod-eu-api': {
+        endpoint: 'https://q99c0m4p4e.execute-api.eu-central-1.amazonaws.com/prod',
         region: 'eu-central-1',
       }
     }
