@@ -20,12 +20,12 @@ interface ApiResponse {
   sources_count?: number;
 }
 
-interface ChatBotProps {
-  user: AuthUser | undefined;
-  signOut: ((data?: any) => void) | undefined;
-}
+// interface ChatBotProps {
+//   user: AuthUser | undefined;
+//   signOut: ((data?: any) => void) | undefined;
+// }
 
-const ChatBot: React.FC<ChatBotProps> = ({ user, signOut }) => {
+const ChatBot: React.FC = () => {
   const { t, i18n } = useTranslation();
   const [dialog, setDialog] = useState<Message[]>([]);
   const [message, setMessage] = useState<string>("");
@@ -53,12 +53,15 @@ const ChatBot: React.FC<ChatBotProps> = ({ user, signOut }) => {
       const token = session.tokens?.accessToken?.toString();
 
       const restOperation = await post({
-        apiName: 'baiterek-ve-prod-eu-api',
-        path: '/hello',
+
+        apiName: 'BVEChatBot-API',
+        path: '/BVEChatBot',
+        // apiName: 'baiterek-ve-prod-eu-api',
+        // path: '/hello',
         options: {
           headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
+            // Authorization: `Bearer ${token}`,
+             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
             question: newMessage.question,
@@ -79,7 +82,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ user, signOut }) => {
 
       const botResponse: Message = {
         text: response.response_text || 'Извините, произошла ошибка',
-        sessionId: sessionId,
+        
         
       };
 
@@ -118,14 +121,14 @@ const ChatBot: React.FC<ChatBotProps> = ({ user, signOut }) => {
             </button>
           ))}
         </div>
-        <div className={styles.authInfo}>
+        {/* <div className={styles.authInfo}>
           {user && user.signInDetails?.loginId && (
             <span className={styles.emailDisplay}>{user.signInDetails.loginId}</span>
           )}
           {signOut && (
             <button onClick={signOut} className={styles.signOutBtn}>Sign out</button>
           )}
-        </div>
+        </div> */}
       </header>
 
       <main className={styles.body}>
