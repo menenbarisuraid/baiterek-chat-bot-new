@@ -4,7 +4,7 @@ import "../../i18n";
 import styles from "./ChatBot.module.css";
 import logo from "./../assets/images/logo.png";
 import { post } from '@aws-amplify/api';
-// import { fetchAuthSession } from 'aws-amplify/auth';
+import { fetchAuthSession , AuthUser} from 'aws-amplify/auth';
 
 interface Message {
   text: string;
@@ -20,12 +20,12 @@ interface ApiResponse {
   sources_count?: number;
 }
 
-// interface ChatBotProps {
-//   user: AuthUser | undefined;
-//   signOut: ((data?: any) => void) | undefined;
-// }
+interface ChatBotProps {
+  user: AuthUser | undefined;
+  signOut: ((data?: any) => void) | undefined;
+}
 
-const ChatBot: React.FC = () => {
+const ChatBot: React.FC<ChatBotProps> = ({ user, signOut }) => {
   const { t, i18n } = useTranslation();
   const [dialog, setDialog] = useState<Message[]>([]);
   const [message, setMessage] = useState<string>("");
@@ -49,8 +49,8 @@ const ChatBot: React.FC = () => {
     setIsLoading(true);
 
     try {
-      // const session = await fetchAuthSession();
-      // const token = session.tokens?.accessToken?.toString();
+      const session = await fetchAuthSession();
+      const token = session.tokens?.accessToken?.toString();
 
       const restOperation = await post({
 
@@ -70,11 +70,11 @@ const ChatBot: React.FC = () => {
         }
       });
 
-      // if (session.tokens) {
-      //   console.log("id token", session.tokens.idToken);
-      //   console.log("access token", session.tokens.accessToken);
-      //    console.log(session)
-      // }
+      if (session.tokens) {
+        console.log("id token", session.tokens.idToken);
+        console.log("access token", session.tokens.accessToken);
+         console.log(session)
+      }
 
       const { body } = await restOperation.response;
       const responseText = await body.text();
@@ -121,14 +121,14 @@ const ChatBot: React.FC = () => {
             </button>
           ))}
         </div>
-        {/* <div className={styles.authInfo}>
+        <div className={styles.authInfo}>
           {user && user.signInDetails?.loginId && (
             <span className={styles.emailDisplay}>{user.signInDetails.loginId}</span>
           )}
           {signOut && (
             <button onClick={signOut} className={styles.signOutBtn}>Sign out</button>
           )}
-        </div> */}
+        </div>
       </header>
 
       <main className={styles.body}>
