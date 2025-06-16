@@ -50,7 +50,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ user, signOut }) => {
 
     try {
       const session = await fetchAuthSession();
-      const token = session.tokens?.accessToken?.toString();
+      // const token = session.tokens?.accessToken?.toString();
 
       const restOperation = await post({
 
