@@ -1,38 +1,78 @@
+<<<<<<< HEAD
 /* #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+=======
+/* App.css */
+
+.signOutBtn {
+  position: fixed;      /* плавающее размещение */
+  right: 24px;          /* ↓ угол экрана */
+  bottom: 24px;
+
+  /* фирменные цвета уже в :root */
+  background: var(--primary, #6366f1);
+  color: #fff;
+
+  padding: 12px 26px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1;
+  border: none;
+  border-radius: 9999px;     /* «пилл»-форма */
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+
+  cursor: pointer;
+  transition: background 0.18s ease, transform 0.18s ease;
+>>>>>>> 9b3294b45dd9451da2f322f58a525b8e7ec98f04
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.signOutBtn:hover:not(:disabled) {
+  background: var(--primary-dark, #4f46e5);
+  transform: translateY(-2px);   /* лёгкий подъём */
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.signOutBtn:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+  /* на узких экранах чуть шире и по центру */
+  .signOutBtn {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: calc(100% - 48px);
+    max-width: 320px;
   }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* плавающая кнопка выбора интервала годов */
+.yearToggleBtn {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  z-index: 8;
+
+  background: var(--primary, #6366f1);
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  padding: 12px 22px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+.yearToggleBtn:hover {
+  background: var(--primary-dark, #4f46e5);
+  transform: translateY(-2px);
 }
 
+<<<<<<< HEAD
 .card {
   padding: 2em;
 }
@@ -108,3 +148,6 @@
 }
 
 /* (Sign-out стили остаются как у вас) */
+=======
+/* (Sign-out стили остаются как у вас) */
+>>>>>>> 9b3294b45dd9451da2f322f58a525b8e7ec98f04
