@@ -1,14 +1,17 @@
 import { Authenticator } from '@aws-amplify/ui-react';
-import { Amplify } from 'aws-amplify';
+import {Amplify}  from 'aws-amplify';
 import '@aws-amplify/ui-react/styles.css';
 import { Routes, Route, Navigate, BrowserRouter } from 'react-router-dom';
-import ChatBot from './components/ChatBot/ChatBot';
+import ChatBot from './components/ChatBot/ChatBot.tsx';
+
 
 Amplify.configure({
   Auth: {
     Cognito: {
-      userPoolId: 'eu-central-1_xaCLPHhTs',
-      userPoolClientId: '5plk66v79glgvfptci5mer5ne5',
+      // userPoolId: 'eu-central-1_xaCLPHhTs',
+      // userPoolClientId: '5plk66v79glgvfptci5mer5ne5',
+      userPoolId: 'eu-central-1_3vi33sPAt',
+      userPoolClientId: '50re4qkcdgcbva45sfm0saiq82',
       loginWith: {
         email: true,
       },
@@ -27,20 +30,31 @@ Amplify.configure({
       },
     },
   },
+  API: {
+    REST: {
+      apidad77fab: {
+        endpoint: 'https://292vy5pmh7.execute-api.eu-central-1.amazonaws.com/default/baiterekchatbotb8c1fe9f-dev',
+        region: 'eu-central-1',
+      }
+    }
+  }
 });
+
 
 export default function App() {
   return (
+  
     <Authenticator>
-      {({ signOut }) => (
+      {({user,  signOut }) => (
+        
         <BrowserRouter>
           <Routes>
             <Route 
+              
               path="/chatbot" 
               element={
                 <div>
-                  <ChatBot />
-                  <button onClick={signOut}>Sign out</button>
+                  <ChatBot user={user} signOut={signOut} />
                 </div>
               } 
             />

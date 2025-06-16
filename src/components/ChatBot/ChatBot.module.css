@@ -92,6 +92,35 @@
     border-color: #ffffff;
 }
 
+.authInfo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: 20px;
+}
+
+.emailDisplay {
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.signOutBtn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--tr);
+    font-size: 0.9rem;
+}
+
+.signOutBtn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
 /* ───────── основная область ───────── */
 .body {
     flex: 1 1 auto;

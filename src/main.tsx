@@ -13,7 +13,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   </React.StrictMode>
 );
 
-
 // Amplify.configure({
 //   Auth: {
 //     Cognito: {
@@ -38,4 +37,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 //     },
 //   },
 // });
+
 
