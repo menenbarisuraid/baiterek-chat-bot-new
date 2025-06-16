@@ -43,20 +43,20 @@ Amplify.configure({
 
 export default function App() {
   return (
-  
+
     <Authenticator>
       {({user,  signOut }) => (
-        
+
         <BrowserRouter>
           <Routes>
-            <Route 
-              
-              path="/chatbot" 
+            <Route
+
+              path="/chatbot"
               element={
                 <div>
                   <ChatBot user={user} signOut={signOut} />
                 </div>
-              } 
+              }
             />
             <Route path="*" element={<Navigate to="/chatbot" replace />} />
           </Routes>
