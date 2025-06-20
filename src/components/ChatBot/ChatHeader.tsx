@@ -134,3 +134,66 @@
 //         </div>
 //     );
 // }
+
+
+
+
+
+
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import styles from '../ChatBot/ChatBot.module.css'; // Assuming styles are in the parent's module
+import logo from '../assets/images/logo.png'; // Adjust path as needed
+import { AuthUser } from 'aws-amplify/auth';
+
+interface ChatHeaderProps {
+  user: AuthUser | undefined;
+  signOut: ((data?: any) => void) | undefined;
+  onLanguageChange: (language: string) => void;
+  currentLanguage: string;
+}
+
+// Configuration for language buttons
+const SUPPORTED_LANGUAGES = [
+  { code: 'kk', name: 'Қаз' },
+  { code: 'ru', name: 'Рус' },
+  { code: 'en', name: 'Eng' },
+];
+
+export const ChatHeader: React.FC<ChatHeaderProps> = ({ user, signOut, onLanguageChange, currentLanguage }) => {
+  const { t } = useTranslation();
+
+  return (
+    <header className={styles.header}>
+      <div className={styles.logoBlock}>
+        <img src={logo} alt="logo" />
+        <span className={styles.logoTitle}>
+          <strong>{t('appName')}</strong>
+          <small>{t('subTitle')}</small>
+        </span>
+      </div>
+      <div className={styles.langWrap}>
+        {SUPPORTED_LANGUAGES.map(({ code, name }) => (
+          <button
+            key={code}
+            className={`${styles.langBtn} ${currentLanguage === code ? styles.langActive : ""}`}
+            onClick={() => onLanguageChange(code)}
+            aria-label={`Switch to ${name}`}
+          >
+            {name}
+          </button>
+        ))}
+      </div>
+      <div className={styles.authInfo}>
+        {user?.signInDetails?.loginId && (
+          <span className={styles.emailDisplay}>{user.signInDetails.loginId}</span>
+        )}
+        {signOut && (
+          <button onClick={signOut} className={styles.signOutBtn}>
+            {t('sign out')}
+          </button>
+        )}
+      </div>
+    </header>
+  );
+};

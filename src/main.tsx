@@ -2,10 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
+import { configureAmplify } from './amplify-config.ts';
 // import { Amplify } from "aws-amplify";
 // import outputs from "../amplify_outputs.json";
 
 // Amplify.configure(outputs);
+configureAmplify();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
