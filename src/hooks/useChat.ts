@@ -1,98 +1,103 @@
 import { useState } from 'react';
-import { useTranslation } from "react-i18next";
 import { post } from '@aws-amplify/api';
 import { fetchAuthSession } from 'aws-amplify/auth';
 
+/* ──────────── API configuration ────────────
+ * Лучше вынести в .env и подставлять через import.meta.env
+ */
+const API_NAME = import.meta.env.VITE_API_NAME;
+const API_PATH = import.meta.env.VITE_API_PATH;
 
-
-
-
-// Define the shape of a message for type safety
-export interface Message {
-  id: string; // Unique ID for React key
-  text: string;
-  isUser: boolean;
-  sources?: any[]; // Optional sources from the bot response
+/* ──────────── типы ──────────── */
+export interface Source {
+  content: string;
+  score?: number;
+  location?: {
+    s3Location?: {
+      uri?: string;
+    };
+  };
 }
 
-// Configuration for the API - better to use environment variables in a real app
-const API_NAME ='test-adilet-API'; /*'baiterek-ve-prod-eu-api';*/
-const API_PATH = '/test-adilet'/*'/hello'*/;
+export interface Message {
+  id: string;
+  text: string;
+  isUser?: boolean;
+  sessionId?: string;
+  sources?: Source[];
+}
 
-/**
- * A private helper function to abstract the API call.
- * This could also be moved to a dedicated `apiService.ts` file in a larger application.
- */
-const sendMessageToApi = async (question: string, sessionId: string) => {
-  const session = await fetchAuthSession();
-  const groups = session.tokens?.accessToken?.payload?.['cognito:groups'] as string[] || [];
-  const role = groups.join(',');
-
-  const restOperation = post({
-    apiName: API_NAME,
-    path: API_PATH,
-    options: {
-      body: {
-        question,
-        sessionId,
-        role,
-      }
-    }
-  });
-
-  const { body } = await restOperation.response;
-  // Use the built-in .json() method for cleaner parsing
-  return await body.json() as { response_text: string; sources?: any[] };
-};
-
-/**
- * Custom hook to manage the entire chat logic.
- */
+/* ──────────── хук ──────────── */
 export const useChat = () => {
-  const { t } = useTranslation();
   const [dialog, setDialog] = useState<Message[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  // The session ID is stable for the lifetime of the component instance
-  const [sessionId] = useState<string>(() => self.crypto.randomUUID());
+  const [isLoading, setIsLoading] = useState(false);
+  const [sessionId] = useState(() => Math.random().toString(36).substring(7));
 
-  const sendMessage = async (userMessageText: string) => {
-    if (!userMessageText.trim() || isLoading) {
-      return;
-    }
+  /** Отправляет сообщение, опционально фильтруя по году */
+  const sendMessage = async (text: string, yearFilter?: number) => {
+    if (!text.trim()) return;
 
-    const userMessage: Message = {
-      id: self.crypto.randomUUID(),
-      text: userMessageText,
+    // добавляем сообщение пользователя в диалог
+    const newMessage: Message = {
+      id: Date.now().toString(),
+      text,
       isUser: true,
+      sessionId,
     };
-
-    // Immediately add the user's message to the dialog
-    setDialog(prevDialog => [...prevDialog, userMessage]);
+    setDialog(prev => [...prev, newMessage]);
     setIsLoading(true);
 
     try {
-      const response = await sendMessageToApi(userMessageText, sessionId);
+      /* --- Auth & role --- */
+      const session = await fetchAuthSession();
+      const payload = session.tokens?.accessToken?.payload;
+      const role = Array.isArray(payload?.['cognito:groups'])
+          ? payload['cognito:groups'].join(',')
+          : String(payload?.['cognito:groups'] ?? '');
 
-      const botMessage: Message = {
-        id: self.crypto.randomUUID(),
-        text: response.response_text || t('errors.default'),
+      /* --- REST call --- */
+      const restOperation = await post({
+        apiName: API_NAME,                 // ← имя из конфигурации
+        path: `${API_PATH}/hello`,         // ← конечный ресурс
+        options: {
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            question: text,
+            sessionId,
+            role,
+            year: yearFilter ?? null,
+          }),
+        },
+      });
+
+      /* --- response --- */
+      const { body } = await restOperation.response;
+      const data = JSON.parse(await body.text());
+
+      const botResponse: Message = {
+        id: (Date.now() + 1).toString(),
+        text: data.response_text || 'Ошибка',
         isUser: false,
-        sources: response.sources,
+        sessionId,
+        sources: data.sources || [],
       };
-      setDialog(prevDialog => [...prevDialog, botMessage]);
-
+      setDialog(prev => [...prev, botResponse]);
     } catch (error) {
-      console.error('Error sending message:', error);
-      const errorMessage: Message = {
-        id: self.crypto.randomUUID(),
-        text: t('errors.sendMessageFailed'), // Using i18n for error messages
-        isUser: false,
-      };
-      setDialog(prevDialog => [...prevDialog, errorMessage]);
+      console.error('Error:', error);
+      setDialog(prev => [
+        ...prev,
+        {
+          id: (Date.now() + 2).toString(),
+          text: 'Произошла ошибка при отправке',
+          isUser: false,
+          sessionId,
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
   };
 
+  /* возвращаем состояние и экшены */
   return { dialog, isLoading, sendMessage };
 };

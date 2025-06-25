@@ -2,20 +2,20 @@
 
 /* ───────── базовые переменные ───────── */
 :root {
-    --primary: #6366f1;           /* индиго-500 */
-    --primary-dark: #4f46e5;      /* индиго-600 */
-    --primary-light: #e0e7ff;     /* очень светлый индиго */
-    --bg: #f3f4f6;                /* светло-серый фон страницы */
-    --surface: #ffffff;           /* цвет «карточки» и фон блоков */
-    --surface-alt: #fafafa;       /* чуть светлее, для второстепенных блоков */
-    --text: #111827;              /* тёмно-серый (почти чёрный) */
-    --text-secondary: #6b7280;    /* серый для второстепенного текста */
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --primary-light: #e0e7ff;
+    --bg: #f3f4f6;
+    --surface: #ffffff;
+    --surface-alt: #fafafa;
+    --text: #111827;
+    --text-secondary: #6b7280;
     --radius-lg: 12px;
     --radius-sm: 8px;
     --shadow-s: 0 2px 6px rgba(0, 0, 0, 0.05);
     --shadow-m: 0 6px 20px rgba(0, 0, 0, 0.08);
     --tr: 0.18s ease;
-    font-family: "Inter", system-ui, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
 }
 
 /* ───────── общий каркас страницы ───────── */
@@ -379,3 +379,86 @@
   .sourceScore {
     font-weight: 500;
   }
+
+.yearToggle {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+.yearButton {
+    background: var(--surface);
+    border: 1px solid var(--primary);
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    color: var(--primary);
+    cursor: pointer;
+    font-weight: 500;
+    transition: var(--tr);
+}
+.yearButton:hover {
+    background: var(--primary-light);
+}
+.yearButton.active {
+    background: var(--primary);
+    color: #fff;
+}
+
+/* ───────── responsive ───────── */
+@media (max-width: 1024px) {
+    .body {
+        max-width: 680px;
+    }
+    .chatBox {
+        max-height: 500px;
+    }
+}
+
+@media (max-width: 640px) {
+    .body {
+        margin: 24px auto;
+        padding: 0 12px;
+    }
+    .card {
+        padding: 24px 20px;
+    }
+    .inputBar {
+        flex-direction: column;
+    }
+    .inputBar input {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+    .inputBar button {
+        width: 100%;
+    }
+    .bubble {
+        max-width: 100%;
+    }
+    .chatBox {
+        max-height: 420px;
+        padding: 16px 12px;
+    }
+    .yearButton {
+        flex: 0 0 calc(50% - 8px);
+        margin-top: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 8px;
+    }
+    .authInfo {
+        margin-left: 0;
+    }
+    .logoBlock img {
+        width: 32px;
+        height: 32px;
+    }
+}

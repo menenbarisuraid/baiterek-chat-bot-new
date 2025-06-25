@@ -1,19 +1,19 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
-import "./index.css";
-import { configureAmplify } from './amplify-config.ts';
-// import { Amplify } from "aws-amplify";
-// import outputs from "../amplify_outputs.json";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 
-// Amplify.configure(outputs);
-configureAmplify();
+import App from './App.tsx';
+import './index.css';
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+import { configureAmplify } from './amplify-config';
+
+configureAmplify(); // конфигурация Amplify (Auth + API)
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>
 );
+
 
 // Amplify.configure({
 //   Auth: {
