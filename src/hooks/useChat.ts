@@ -3,6 +3,10 @@ import { useTranslation } from "react-i18next";
 import { post } from '@aws-amplify/api';
 import { fetchAuthSession } from 'aws-amplify/auth';
 
+
+
+
+
 // Define the shape of a message for type safety
 export interface Message {
   id: string; // Unique ID for React key

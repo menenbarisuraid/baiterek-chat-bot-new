@@ -314,3 +314,68 @@
     text-align: center;
     color: var(--text-secondary);
 }
+
+
+
+
+.sourcesContainer {
+    margin-left: 55px; /* Align with the bot bubble */
+    margin-right: auto;
+    max-width: 80%;
+    margin-top: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .sourcesContainer h4 {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+  
+  .sourceCard {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+  }
+  
+  .sourceContent {
+    color: #343a40;
+    white-space: pre-wrap; /* Respect newlines in the content */
+  }
+  
+  /* Styles for the markdown content */
+  .sourceContent h1,
+  .sourceContent h2,
+  .sourceContent h3 {
+    font-size: 1rem;
+    margin: 0 0 5px 0;
+    font-weight: 600;
+  }
+  
+  .sourceContent p {
+      margin: 0;
+  }
+  
+  .sourceMeta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    font-size: 0.75rem;
+    color: #6c757d;
+  }
+  
+  .sourceLink {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 70%;
+  }
+  
+  .sourceScore {
+    font-weight: 500;
+  }
